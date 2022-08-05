@@ -1,7 +1,7 @@
 # Pull all AZ from this region
 data "aws_availability_zones" "all" {}
 
-# This pulls AMI info from your aws account
+# This pulls AMI from your aws account
 data "aws_ami" "packer" {
   most_recent = true
 

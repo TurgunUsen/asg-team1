@@ -39,7 +39,7 @@ build {
         //     "sudo mv /var/www/html/wordpress/* /var/www/html/",
         //     "sudo chown -R apache:apache /var/www/html/",
         //     "sudo systemctl restart httpd"
-		// ]
+		]
 	}
 	
 }
