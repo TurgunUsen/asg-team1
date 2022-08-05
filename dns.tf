@@ -1,20 +1,9 @@
-resource "aws_route53_zone" "main" {
-  name = "usentechnology.com"
-}
-
-resource "aws_route53_zone" "wordpress" {
-  name = "wordpress.usentechnology.com"
-
-  tags = {
-    Name = "Team1"
-  }
-}
 
 resource "aws_route53_record" "dev-ns" {
-  zone_id = aws_route53_zone.main.zone_id
+  zone_id = "Z02590222CJSB8B3L8J5T"
   name    = "wordpress.usentechnology.com"
-  type    = "A"
+  type    = "CNAME"
   ttl     = "30"
-  records = aws_route53_zone.wordpress.name_servers
+  records = [aws_alb.application-lb.dns_name]
 
 }

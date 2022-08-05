@@ -1,33 +1,32 @@
-#Launch Template
-resource "aws_launch_template" "template" {
-  name          = "template-asg"
-  instance_type = "t2.micro"
-  image_id      = "ami-0cff7528ff583bf9a"
+# Pull all AZ from this region
+data "aws_availability_zones" "all" {}
 
-  tag_specifications {
-    resource_type = "instance"
+# This pulls AMI info from your aws account
+data "aws_ami" "packer" {
+  most_recent = true
 
-    tags = {
-      Name = "Wordpress"
-    }
+  filter {
+    name   = "name"
+    values = ["ami-for-team1"]
   }
 
-  user_data = filebase64("/home/ec2-user/test-asg/userdata.sh")
-
+  owners = ["972559840749"] # Put your aws account id
 }
 
-  
+module "asg" {
+  source  = "terraform-aws-modules/autoscaling/aws"
+  name = "Team1-asg"
 
-# Auto Scaling Group
-resource "aws_autoscaling_group" "asg" {
-  desired_capacity = 3
-  max_size         = 99
-  min_size         = 3
-  vpc_zone_identifier  = data.aws_subnet_ids.subnet.id
-  
+  min_size                  = 1
+  max_size                  = 99
+  desired_capacity          = 1
+  wait_for_capacity_timeout = 0
+  health_check_type         = "EC2"
+  availability_zones	=  data.aws_availability_zones.all.names  # Use all AZs from this region
 
-  launch_template {
-    id      = aws_launch_template.template.id
-    version = "$Latest"
-  }
+  image_id          = data.aws_ami.packer.id  # This uses AMI found under your account
+  instance_type     = "t2.micro"
+  ebs_optimized     = true
+  enable_monitoring = true
+
 }

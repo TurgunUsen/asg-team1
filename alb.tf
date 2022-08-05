@@ -1,5 +1,5 @@
 # target group
-resource "aws_lb_target_group" "target-group" {
+resource "aws_alb_target_group" "target-group" {
   health_check {
     interval            = 10
     path                = "/"
@@ -17,7 +17,7 @@ resource "aws_lb_target_group" "target-group" {
 }
 
 # Application Load Balancer
-resource "aws_lb" "application-lb" {
+resource "aws_alb" "application-lb" {
   name               = "team1-alb"
   internal           = false
   ip_address_type    = "ipv4"
@@ -27,19 +27,18 @@ resource "aws_lb" "application-lb" {
 }
 
 # Creating Listener
-resource "aws_lb_listener" "alb-listener" {
-  load_balancer_arn = aws_lb.application-lb.arn
+resource "aws_alb_listener" "alb-listener" {
+  load_balancer_arn = aws_alb.application-lb.arn
   port              = 80
   protocol          = "HTTP"
   default_action {
-    target_group_arn = aws_lb_target_group.target-group.arn
+    target_group_arn = aws_alb_target_group.target-group.arn
     type             = "forward"
   }
 }
 
-# attachment 
-resource "aws_lb_target_group_attachment" "asg-attach" {
-  target_group_arn = aws_lb_target_group.target-group.arn
-  target_id        = aws_lb.application-lb.id
-  port             = 80
+# Create a new ALB Target Group attachment
+resource "aws_autoscaling_attachment" "asg_attachment" {
+  autoscaling_group_name = module.asg.autoscaling_group_id
+  lb_target_group_arn    = aws_alb_target_group.target-group.arn
 }
