@@ -11,7 +11,7 @@ sudo cp /var/www/html/wp-config-sample.php  /var/www/html/wp-config.php
 sudo sed 's/database_name_here/team1-db/g' /var/www/html/wp-config.php -i
 sudo sed 's/username_here/team1/g' /var/www/html/wp-config.php -i
 sudo sed 's/password_here/projectone/g' /var/www/html/wp-config.php -i
-sudo sed 's/localhost/team2sql-whyno.mysql.database.azure.com/g' /var/www/html/wp-config.php -i
+# sudo sed 's/localhost/???/g' /var/www/html/wp-config.php -i  ---->>> Need endpoint
 #DBNAME="db-wordpress"
 sudo getenforce
 sudo sed 's/SELINUX=permissive/SELINUX=enforcing/g' /etc/sysconfig/selinux -i
