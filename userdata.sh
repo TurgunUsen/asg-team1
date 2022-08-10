@@ -8,10 +8,10 @@ sudo wget https://wordpress.org/latest.tar.gz
 sudo tar -xf latest.tar.gz -C /var/www/html/
 sudo mv /var/www/html/wordpress/* /var/www/html/
 sudo cp /var/www/html/wp-config-sample.php  /var/www/html/wp-config.php 
-sudo sed 's/database_name_here/team1-db/g' /var/www/html/wp-config.php -i
-sudo sed 's/username_here/team1/g' /var/www/html/wp-config.php -i
-sudo sed 's/password_here/projectone/g' /var/www/html/wp-config.php -i
-# sudo sed 's/localhost/???/g' /var/www/html/wp-config.php -i  ---->>> Need endpoint
+sudo sed 's/database_name_here/team1-db/g' /var/www/html/wp-config.php -i # put database name
+sudo sed 's/username_here/team1/g' /var/www/html/wp-config.php -i         # put database username
+sudo sed 's/password_here/projectone/g' /var/www/html/wp-config.php -i    # put database password
+sudo sed 's/localhost/???/g' /var/www/html/wp-config.php -i               # put database endpoint
 #DBNAME="db-wordpress"
 sudo getenforce
 sudo sed 's/SELINUX=permissive/SELINUX=enforcing/g' /etc/sysconfig/selinux -i
